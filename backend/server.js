@@ -7,7 +7,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
     const numSongs = req.query.songs == null ? 100 : req.query.songs;
-    let process = spawn("python3", ["./backend/scraper.py"]);
+    let process = spawn("python3", ["./backend/scraper.py", numSongs]);
 
     process.stdout.on("data", (data) => {
         res.status(200).send(data.toString());

@@ -24,6 +24,8 @@ To run only the frontend:
 
     npm run backend
 
+The frontend should then be accessible at http://localhost:3000/ and the backend should be accessible at http://localhost:8080/.
+
 ## Project Structure
 
 ### Base Structure
@@ -68,6 +70,8 @@ To run only the frontend:
     │   │   ├── index.js                # Renders App component on page
     │   │   ├── reportWebVitals.js
     │   │   ├── setupTests.js
+    │   │   ├── setupTests.js
+    │   ├── .gitignore
     │   ├── README.md
     │   ├── package-lock.json
     │   ├── package.json

@@ -22,7 +22,9 @@
   "homepage": "https://github.com/ChangePlusPlusVandy/change-coding-challenge-2021-abi-kothapalli#readme",
   "dependencies": {
     "child_process": "^1.0.2",
-    "express": "^4.17.1"
+    "deasync": "^0.1.23",
+    "express": "^4.17.1",
+    "jquery": "^3.6.0"
   },
   "devDependencies": {
     "concurrently": "^6.2.1"

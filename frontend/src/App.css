@@ -44,3 +44,22 @@
 #resetBtn:focus {
     color: white;
 }
+
+@media (max-width: 991px) {
+    .songPanelImgDiv {
+        width: 100%;
+    }
+
+    .songPanelImg {
+        display: block;
+        margin: auto;
+    }
+}
+
+.panelBody {
+    width: 400px !important;
+}
+
+#guessBtn {
+    font-size: 1.5rem;
+}

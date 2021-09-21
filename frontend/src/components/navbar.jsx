@@ -3,8 +3,8 @@ import React, { Component } from "react";
 class NavBar extends Component {
     render() {
         return (
-            <nav className="navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container-fluid">
+            <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-light">
+                <div className="container-fluid mx-auto">
                     <a
                         className="navbar-brand"
                         style={{
@@ -32,7 +32,6 @@ class NavBar extends Component {
                             Current Score: 0
                         </button>
                     </div>
-
                     <div className="dropdown navbar-text">
                         <button
                             type="button"

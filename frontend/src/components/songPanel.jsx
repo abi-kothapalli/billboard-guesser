@@ -27,7 +27,10 @@ export default class SongPanel extends Component {
                         <button
                             type="button"
                             className="btn btn-primary btn-lg mt-2 mb-1 mr-2"
-                            style={{ height: "100%" }}
+                            onClick={() =>
+                                this.props.onMove(this.props.songInfo, true)
+                            }
+                            disabled={this.props.songInfo.first}
                         >
                             <span className="fa fa-arrow-up fa-lg" />
                         </button>
@@ -35,6 +38,10 @@ export default class SongPanel extends Component {
                         <button
                             type="button"
                             className="btn btn-primary btn-lg mt-1 mb-2 mr-2"
+                            onClick={() =>
+                                this.props.onMove(this.props.songInfo, false)
+                            }
+                            disabled={this.props.songInfo.last}
                         >
                             <span className="fa fa-arrow-down fa-lg" />
                         </button>

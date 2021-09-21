@@ -29,7 +29,7 @@ class NavBar extends Component {
                             className="btn btn-primary btn-sm"
                             disabled
                         >
-                            Current Score: 0
+                            Current Score: {this.props.currScore}
                         </button>
                     </div>
                     <div className="dropdown navbar-text">
@@ -39,7 +39,7 @@ class NavBar extends Component {
                             className="btn btn-danger btn-sm mx-2"
                             disabled
                         >
-                            High Score: 0
+                            High Score: {this.props.highScore}
                         </button>
 
                         <button
@@ -57,7 +57,11 @@ class NavBar extends Component {
                             className="dropdown-menu dropdown-menu-right"
                         >
                             <span>
-                                <button className="btn btn-secondary btn-sm">
+                                <button
+                                    className="btn btn-secondary btn-sm"
+                                    onClick={() => this.props.onDifficulty(-1)}
+                                    disabled={this.props.songDifficulty < 3}
+                                >
                                     <span className="fa fa-minus fa-sm" />
                                 </button>
                                 <button
@@ -66,9 +70,13 @@ class NavBar extends Component {
                                     className="btn btn-outline-dark btn-sm mx-2"
                                     disabled
                                 >
-                                    Songs: 3
+                                    Songs: {this.props.songDifficulty}
                                 </button>
-                                <button className="btn btn-secondary btn-sm">
+                                <button
+                                    className="btn btn-secondary btn-sm"
+                                    onClick={() => this.props.onDifficulty(1)}
+                                    disabled={this.props.songDifficulty > 9}
+                                >
                                     <span className="fa fa-plus fa-sm" />
                                 </button>
                             </span>
@@ -77,6 +85,7 @@ class NavBar extends Component {
                                 className="dropdown-item btn-danger"
                                 id="resetBtn"
                                 href="#"
+                                onClick={this.props.onReset}
                             >
                                 Reset
                             </a>

@@ -1,12 +1,14 @@
 import React, { Component } from "react";
 import NavBar from "./components/navbar";
-import Counters from "./components/counters";
-import "./App.css";
+import Loading from "./components/loading";
 import SongDashboard from "./components/songDashboard";
 import axios from "axios";
+import "./App.css";
 
 export default class App extends Component {
     state = {
+        backendActive: false,
+        backendReady: false,
         songDifficulty: 3,
         currScore: 0,
         highScore: 0,
@@ -87,26 +89,70 @@ export default class App extends Component {
 
     constructor() {
         super();
-        axios.get("http://localhost:8080/").then((res) => console.log(res));
+        axios
+            .get("http://localhost:8080/")
+            .then((res) => {
+                console.log(res.status);
+                this.setState({ backendActive: true, backendReady: true });
+            })
+            .catch((error) => {
+                if (error.request.status === 0) {
+                    // Backend server is not being detected
+                    this.setState({
+                        backendActive: false,
+                        backendReady: false,
+                    });
+                } else {
+                    // Backend server is active but is likely sending back 425, since web scraper is not finished
+                    if (error.response.status === 425) {
+                        this.setState({
+                            backendActive: true,
+                            backendReady: false,
+                        });
+                    } else {
+                        this.setState({
+                            backendActive: false,
+                            backendReady: false,
+                        });
+                    }
+                }
+            });
     }
 
     render() {
-        return (
-            <React.Fragment>
-                <NavBar
-                    songDifficulty={this.state.songDifficulty}
-                    onDifficulty={this.handleDifficulty}
-                    currScore={this.state.currScore}
-                    highScore={this.state.highScore}
-                    onReset={this.handleReset}
-                />
-                <main className="container">
-                    <SongDashboard
-                        panels={this.state.panels}
-                        onMove={this.handleMove}
+        if (!this.state.backendActive || !this.state.backendReady) {
+            return (
+                <React.Fragment>
+                    <NavBar
+                        songDifficulty={this.state.songDifficulty}
+                        onDifficulty={this.handleDifficulty}
+                        currScore={this.state.currScore}
+                        highScore={this.state.highScore}
+                        onReset={this.handleReset}
                     />
-                </main>
-            </React.Fragment>
-        );
+                    <main className="container">
+                        <Loading backendActive={this.state.backendActive} />
+                    </main>
+                </React.Fragment>
+            );
+        } else {
+            return (
+                <React.Fragment>
+                    <NavBar
+                        songDifficulty={this.state.songDifficulty}
+                        onDifficulty={this.handleDifficulty}
+                        currScore={this.state.currScore}
+                        highScore={this.state.highScore}
+                        onReset={this.handleReset}
+                    />
+                    <main className="container">
+                        <SongDashboard
+                            panels={this.state.panels}
+                            onMove={this.handleMove}
+                        />
+                    </main>
+                </React.Fragment>
+            );
+        }
     }
 }

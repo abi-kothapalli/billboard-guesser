@@ -16,11 +16,11 @@ To run the entire application (both the frontend and backend), run:
 
     npm run app
 
-To run only the backend:
+To run only the frontend:
 
     npm run frontend
 
-To run only the frontend:
+To run only the backend:
 
     npm run backend
 

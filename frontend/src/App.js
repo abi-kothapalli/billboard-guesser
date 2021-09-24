@@ -126,6 +126,10 @@ export default class App extends Component {
     };
 
     handleReset = () => {
+        if (!this.state.backendActive || !this.state.backendReady) {
+            return;
+        }
+
         this.setState({
             currScore: 0,
             highScore: 0,
@@ -231,6 +235,8 @@ export default class App extends Component {
                         currScore={this.state.currScore}
                         highScore={this.state.highScore}
                         onReset={this.handleReset}
+                        runStats={this.state.runStats}
+                        allStats={this.state.allStats}
                     />
                     <main className="container">
                         <Loading backendActive={this.state.backendActive} />

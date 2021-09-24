@@ -1,98 +1,403 @@
 import React, { Component } from "react";
 
 class NavBar extends Component {
+    formatStats = (current, type) => {
+        if (current) {
+            if (this.props.runStats) {
+                const { totalCorrect, totalGuesses, difficultySum } =
+                    this.props.runStats;
+
+                if (type === 0) {
+                    return totalCorrect;
+                } else if (type === 1) {
+                    return totalGuesses;
+                } else {
+                    if (totalGuesses === 0) {
+                        return this.props.songDifficulty;
+                    } else {
+                        const avg = difficultySum / totalGuesses;
+                        return (Math.round(avg * 100) / 100).toFixed(2);
+                    }
+                }
+            } else {
+                return "Loading...";
+            }
+        } else {
+            if (this.props.allStats) {
+                const { totalCorrect, totalGuesses, difficultySum } =
+                    this.props.allStats;
+
+                if (type === 0) {
+                    return totalCorrect;
+                } else if (type === 1) {
+                    return totalGuesses;
+                } else {
+                    if (totalGuesses === 0) {
+                        return this.props.songDifficulty;
+                    } else {
+                        const avg = difficultySum / totalGuesses;
+                        return (Math.round(avg * 100) / 100).toFixed(2);
+                    }
+                }
+            } else {
+                return "Loading...";
+            }
+        }
+    };
+
     render() {
         return (
-            <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-light">
-                <div className="container-fluid mx-auto">
-                    <a
-                        className="navbar-brand"
-                        style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "flex-start",
-                        }}
-                        href="#"
-                    >
-                        <img
-                            src="favicon144.png"
-                            alt=""
-                            width="30"
-                            className="logo pull-left d-inline-block align-text-top mx-2"
-                        />
-                        Billboard Guesser Game
-                    </a>
-                    <div className="mr-auto">
-                        <button
-                            type="button"
-                            tabIndex="-1"
-                            className="btn btn-primary btn-sm"
-                            disabled
+            <React.Fragment>
+                <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-light">
+                    <div className="container-fluid mx-auto">
+                        <a
+                            className="navbar-brand"
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "flex-start",
+                            }}
+                            href="#"
                         >
-                            Current Score: {this.props.currScore}
-                        </button>
-                    </div>
-                    <div className="dropdown navbar-text">
-                        <button
-                            type="button"
-                            tabIndex="-1"
-                            className="btn btn-danger btn-sm mx-2"
-                            disabled
-                        >
-                            High Score: {this.props.highScore}
-                        </button>
+                            <img
+                                src="favicon144.png"
+                                alt=""
+                                width="30"
+                                className="logo pull-left d-inline-block align-text-top mx-2"
+                            />
+                            Billboard Guesser Game
+                        </a>
+                        <div className="mr-auto">
+                            <button
+                                type="button"
+                                tabIndex="-1"
+                                className="btn btn-primary btn-sm"
+                                disabled
+                            >
+                                Current Score: {this.props.currScore}
+                            </button>
+                        </div>
+                        <div className="dropdown navbar-text">
+                            <button
+                                type="button"
+                                tabIndex="-1"
+                                className="btn btn-danger btn-sm mx-2"
+                                disabled
+                            >
+                                High Score: {this.props.highScore}
+                            </button>
 
-                        <button
-                            type="button"
-                            className="btn btn-sm btn-dark dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            <span className="fa fa-gear fa-lg" />
-                        </button>
+                            <button
+                                type="button"
+                                className="btn btn-sm btn-dark dropdown-toggle"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                <span className="fa fa-gear fa-lg" />
+                            </button>
 
-                        <div
-                            style={{ textAlign: "center", width: 200 }}
-                            className="dropdown-menu dropdown-menu-right"
-                        >
-                            <span>
-                                <button
-                                    className="btn btn-secondary btn-sm"
-                                    onClick={() => this.props.onDifficulty(-1)}
-                                    disabled={this.props.songDifficulty < 3}
+                            <div
+                                style={{ textAlign: "center", width: 200 }}
+                                className="dropdown-menu dropdown-menu-right"
+                            >
+                                <span>
+                                    <button
+                                        className="btn btn-secondary btn-sm"
+                                        onClick={() =>
+                                            this.props.onDifficulty(-1)
+                                        }
+                                        disabled={this.props.songDifficulty < 3}
+                                    >
+                                        <span className="fa fa-minus fa-sm" />
+                                    </button>
+                                    <button
+                                        type="button"
+                                        tabIndex="-1"
+                                        className="btn btn-outline-dark btn-sm mx-2"
+                                        disabled
+                                    >
+                                        Songs: {this.props.songDifficulty}
+                                    </button>
+                                    <button
+                                        className="btn btn-secondary btn-sm"
+                                        onClick={() =>
+                                            this.props.onDifficulty(1)
+                                        }
+                                        disabled={this.props.songDifficulty > 9}
+                                    >
+                                        <span className="fa fa-plus fa-sm" />
+                                    </button>
+                                </span>
+                                <div className="dropdown-divider"></div>
+                                <a
+                                    className="dropdown-item btn-info"
+                                    id="infoBtn"
+                                    href="#"
+                                    data-toggle="modal"
+                                    data-target="#infoModal"
                                 >
-                                    <span className="fa fa-minus fa-sm" />
+                                    <span className="fa fa-info-circle" /> Game
+                                    Rules
+                                </a>
+                                <div className="dropdown-divider"></div>
+                                <a
+                                    className="dropdown-item btn-primary"
+                                    id="statsBtn"
+                                    href="#"
+                                    data-toggle="modal"
+                                    data-target="#statsModal"
+                                >
+                                    <span className="fa fa-bar-chart" /> Player
+                                    Stats
+                                </a>
+                                <div className="dropdown-divider"></div>
+                                <a
+                                    className="dropdown-item btn-danger"
+                                    id="resetBtn"
+                                    href="#"
+                                    onClick={this.props.onReset}
+                                >
+                                    <span className="fa fa-rotate-right" />
+                                    {"\t"}Reset
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+
+                <div
+                    className="modal fade"
+                    id="infoModal"
+                    data-backdrop="static"
+                    data-keyboard="false"
+                    tabIndex="-1"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
+                >
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5
+                                    className="modal-title"
+                                    id="staticBackdropLabel"
+                                    style={{ color: "#5bc0de" }}
+                                >
+                                    Welcome to (the amazingly named) Billboard
+                                    Guesser Game!
+                                </h5>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
                                 </button>
+                            </div>
+                            <div className="modal-body">
+                                You will be shown a random selection of songs
+                                from the Billboard Hot 100 Chart. Your objective
+                                is to put the songs in the same order that they
+                                appear on the Hot 100 Chart. <br /> <br />
+                                Use the
+                                <button
+                                    type="button"
+                                    className="btn btn-primary btn-sm mx-1"
+                                >
+                                    Arrows <span className="fa fa-arrow-up" />{" "}
+                                    <span className="fa fa-arrow-down" />
+                                </button>
+                                on each song to put the songs in the order you
+                                would like, and then use the{" "}
+                                <button className="btn btn-success btn-sm mx-1">
+                                    Guess!
+                                </button>{" "}
+                                button at the bottom of the page when you think
+                                you have the right order. Your{" "}
                                 <button
                                     type="button"
                                     tabIndex="-1"
-                                    className="btn btn-outline-dark btn-sm mx-2"
+                                    className="btn btn-primary btn-sm mx-1"
                                     disabled
                                 >
-                                    Songs: {this.props.songDifficulty}
-                                </button>
+                                    Current Score
+                                </button>{" "}
+                                and{" "}
                                 <button
-                                    className="btn btn-secondary btn-sm"
-                                    onClick={() => this.props.onDifficulty(1)}
-                                    disabled={this.props.songDifficulty > 9}
+                                    type="button"
+                                    tabIndex="-1"
+                                    className="btn btn-danger btn-sm mx-1"
+                                    disabled
                                 >
-                                    <span className="fa fa-plus fa-sm" />
+                                    High Score
+                                </button>{" "}
+                                will be displayed at the top of the screen.
+                                <br />
+                                <br />
+                                You can increase the difficulty of the game by
+                                using the{" "}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-dark mx-1"
+                                >
+                                    Settings{" "}
+                                    <span className="fa fa-gear fa-lg" />
+                                </button>{" "}
+                                menu in the top right corner of the screen. You
+                                can also refer back to these{" "}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-info mx-1"
+                                >
+                                    <span className="fa fa-info-circle" /> Game
+                                    Rules
+                                </button>{" "}
+                                again in this menu if you wish. You will also
+                                find your current and all time{" "}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-primary mx-1"
+                                >
+                                    <span className="fa fa-bar-chart" /> Player
+                                    Stats
+                                </button>{" "}
+                                in this menu. <br />
+                                <br />
+                                If at any point you would like to reset the game
+                                to a clean slate, you can use the{" "}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-danger mx-1"
+                                >
+                                    <span className="fa fa-rotate-right" />
+                                    {"\t"}Reset
+                                </button>{" "}
+                                button in the{" "}
+                                <button
+                                    type="button"
+                                    className="btn btn-sm btn-dark mx-1"
+                                >
+                                    Settings{" "}
+                                    <span className="fa fa-gear fa-lg" />
+                                </button>{" "}
+                                menu.{" "}
+                                <strong style={{ color: "#d9534f" }}>
+                                    Use this button with caution, as it cannot
+                                    be undone.
+                                </strong>
+                                <br />
+                                <br />
+                                <strong style={{ color: "#5bc0de" }}>
+                                    {" "}
+                                    Good luck!{" "}
+                                </strong>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-info"
+                                    data-dismiss="modal"
+                                >
+                                    Continue
                                 </button>
-                            </span>
-                            <div className="dropdown-divider"></div>
-                            <a
-                                className="dropdown-item btn-danger"
-                                id="resetBtn"
-                                href="#"
-                                onClick={this.props.onReset}
-                            >
-                                Reset
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </nav>
+
+                <div
+                    className="modal fade"
+                    id="statsModal"
+                    data-backdrop="static"
+                    data-keyboard="false"
+                    tabIndex="-1"
+                    aria-labelledby="staticBackdropLabel"
+                    aria-hidden="true"
+                >
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5
+                                    className="modal-title"
+                                    id="staticBackdropLabel"
+                                    style={{ color: "#0275d8" }}
+                                >
+                                    Player Statistics
+                                </h5>
+                                <button
+                                    type="button"
+                                    className="close"
+                                    data-dismiss="modal"
+                                    aria-label="Close"
+                                >
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <strong>Current Game Statistics:</strong>
+                                <ul>
+                                    <li>
+                                        Total{" "}
+                                        <span style={{ color: "#5cb85c" }}>
+                                            Correct
+                                        </span>{" "}
+                                        Guesses: {this.formatStats(true, 0)}
+                                    </li>
+                                    <li>
+                                        Total{" "}
+                                        <span style={{ color: "#f0ad4e" }}>
+                                            Attempted
+                                        </span>{" "}
+                                        Guesses: {this.formatStats(true, 1)}
+                                    </li>
+                                    <li>
+                                        Average{" "}
+                                        <span style={{ color: "#d9534f" }}>
+                                            Song Difficulty
+                                        </span>{" "}
+                                        Count: {this.formatStats(true, 2)}
+                                    </li>
+                                </ul>
+                                <hr />
+                                <strong>All Time Statistics:</strong>
+                                <ul>
+                                    <li>
+                                        Total{" "}
+                                        <span style={{ color: "#5cb85c" }}>
+                                            Correct
+                                        </span>{" "}
+                                        Guesses: {this.formatStats(false, 0)}
+                                    </li>
+                                    <li>
+                                        Total{" "}
+                                        <span style={{ color: "#f0ad4e" }}>
+                                            Attempted
+                                        </span>{" "}
+                                        Guesses: {this.formatStats(false, 1)}
+                                    </li>
+                                    <li>
+                                        Average{" "}
+                                        <span style={{ color: "#d9534f" }}>
+                                            Song Difficulty
+                                        </span>{" "}
+                                        Count: {this.formatStats(false, 2)}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    data-dismiss="modal"
+                                >
+                                    Continue
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </React.Fragment>
         );
     }
 }

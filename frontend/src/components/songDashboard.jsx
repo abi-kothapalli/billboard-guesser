@@ -1,16 +1,86 @@
 import React, { Component } from "react";
 import SongPanel from "./songPanel";
-import $ from "jquery";
 
 export default class SongDashboard extends Component {
-    handleGuess = () => {
-        let cond = false;
+    formatOutput = (correct) => {
+        let panels = [...this.props.oldPanels];
+        panels.sort(this.compareSongs);
 
-        if (cond) {
-            $("#correctGuess").modal("show");
+        if (correct) {
+            return (
+                <React.Fragment>
+                    <br /> <br />
+                    <strong style={{ color: "#42ba96" }}>
+                        The correct order was:
+                    </strong>
+                    <br />
+                    <ol className="answer">
+                        {panels.map((panel) => (
+                            <React.Fragment>
+                                <li>{`${panel.title} — ${panel.artist} (Rank: ${panel.rank})`}</li>
+                            </React.Fragment>
+                        ))}
+                    </ol>
+                </React.Fragment>
+            );
         } else {
-            $("#incorrectGuess").modal("show");
+            return (
+                <React.Fragment>
+                    <br /> <br />
+                    <strong style={{ color: "#df4759" }}>
+                        Your order was:
+                    </strong>
+                    <br />
+                    <ol className="answer">
+                        {this.props.oldPanels.map((panel, idx) => (
+                            <React.Fragment>
+                                <li
+                                    style={{
+                                        color: this.getColor(
+                                            panels,
+                                            panel,
+                                            idx
+                                        ),
+                                    }}
+                                >{`${panel.title} — ${panel.artist} (Rank: ${panel.rank})`}</li>
+                            </React.Fragment>
+                        ))}
+                    </ol>
+                    <strong style={{ color: "#df4759" }}>
+                        The correct order was:
+                    </strong>
+                    <br />
+                    <ol>
+                        {panels.map((panel) => (
+                            <React.Fragment>
+                                <li>{`${panel.title} — ${panel.artist} (Rank: ${panel.rank})`}</li>
+                            </React.Fragment>
+                        ))}
+                    </ol>
+                </React.Fragment>
+            );
         }
+    };
+
+    getColor = (sortedPanels, panel, idx) => {
+        if (panel === sortedPanels[idx]) {
+            return "#212529";
+        } else {
+            return "#df4759";
+        }
+    };
+
+    compareSongs = (a, b) => {
+        a.rank = parseInt(a.rank);
+        b.rank = parseInt(b.rank);
+
+        if (a.rank < b.rank) {
+            return -1;
+        }
+        if (a.rank > b.rank) {
+            return 1;
+        }
+        return 0;
     };
 
     render() {
@@ -28,7 +98,7 @@ export default class SongDashboard extends Component {
                     <button
                         className="btn btn-success btn-lg shadow-lg mb-3"
                         id="guessBtn"
-                        onClick={this.handleGuess}
+                        onClick={this.props.onGuess}
                     >
                         Guess!
                     </button>
@@ -62,7 +132,10 @@ export default class SongDashboard extends Component {
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
-                            <div className="modal-body">You got it right!</div>
+                            <div className="modal-body">
+                                You got it right!{"\n"}
+                                {this.formatOutput(true)}
+                            </div>
                             <div className="modal-footer">
                                 <button
                                     type="button"
@@ -105,7 +178,8 @@ export default class SongDashboard extends Component {
                                 </button>
                             </div>
                             <div className="modal-body">
-                                You got it wrong, sorry!
+                                You got it wrong, sorry!{"\n"}
+                                {this.formatOutput(false)}
                             </div>
                             <div className="modal-footer">
                                 <button

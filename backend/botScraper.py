@@ -66,9 +66,9 @@ def scrape_with_bot():
 
         song_entry = dict()
         song_entry["rank"] = rank
-        song_entry["name"] = name
+        song_entry["title"] = name
         song_entry["artist"] = artist
-        song_entry["imageURL"] = image
+        song_entry["picture"] = image
 
         top_100.append(song_entry)
 

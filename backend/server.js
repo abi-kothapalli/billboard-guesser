@@ -22,7 +22,8 @@ runBotScraper = () => {
 
 processOutput = (res, code) => {
     console.log(`Python process exited with code ${code}`);
-    scrapedData = res;
+
+    scrapedData = code === 0 ? res : runBotScraper();
 };
 
 app.use(express.json());
@@ -34,23 +35,6 @@ app.get("/", (req, res) => {
     } else {
         res.status(200).send(scrapedData);
     }
-});
-
-app.get("/test", (req, res) => {
-    let process = spawn("python3", ["./backend/test.py"]);
-
-    process.stdout.on("data", (data) => {
-        res.status(200).send(data.toString());
-    });
-
-    process.on("close", (code) => {
-        console.log(`Python process exited with code ${code}`);
-        if (code != 0) {
-            res.status(500).send(
-                "There was an error while running the Python test script"
-            );
-        }
-    });
 });
 
 app.listen(PORT, () => {

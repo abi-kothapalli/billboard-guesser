@@ -38,10 +38,26 @@
 }
 
 #resetBtn {
-    color: red;
+    color: #d9534f;
 }
 
 #resetBtn:focus {
+    color: white;
+}
+
+#infoBtn {
+    color: #5bc0de;
+}
+
+#infoBtn:focus {
+    color: white;
+}
+
+#statsBtn {
+    color: #0275d8;
+}
+
+#statsBtn:focus {
     color: white;
 }
 
@@ -62,4 +78,14 @@
 
 #guessBtn {
     font-size: 1.5rem;
+}
+
+ol {
+    list-style-position: inside;
+    padding-left: 0;
+}
+
+ul {
+    list-style-position: inside;
+    padding-left: 0;
 }

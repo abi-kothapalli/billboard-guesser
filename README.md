@@ -26,7 +26,7 @@ To run only the backend:
 
 The frontend should then be accessible at http://localhost:3000/ and the backend should be accessible at http://localhost:8080/.
 
-If you encounter any errors when attempting to run the app, it may likely be do to dependency issues. Ensure you have the dependency that raised the error, and rerun the app.
+If you encounter any errors when attempting to run the app, it may likely be due to dependency issues. Ensure you have the dependency that raised the error, and rerun the app.
 
 ## Project Structure
 
@@ -86,3 +86,5 @@ There are a few things that I would do with this application if I was given more
 Also, when the user tries to change the difficulty of the game in the frontend, the menu that is used to change the difficulty disappears after one click, preventing the user from increasing or decreasing the difficulty of the game by more than 1 at once. This is a minor annoyance, that I would attempt to fix if given more time.
 
 I also was considering using a drag-n-drop feature for the user to order the songs on the frontend, but ultimately opted with using arrow buttons instead, as I liked the aesthetic more. Perhaps in the future I could’ve made both options available to the user, as drag-n-drop would certainly look very smooth and make the frontend feel more modern.
+
+Finally, one larger-scale feature that I think would be cool is a system where the user could input their name, and save their name and high score to a MongoDB or someother database, and then generate a global leaderboard where users could compare their scores to each other and compete over time.

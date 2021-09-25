@@ -1,6 +1,18 @@
 import React, { Component } from "react";
 
 class NavBar extends Component {
+    /**
+     * @brief                       Gets neccessary statistic to load into Player Stats menu
+     * @details                     Based on statistic type (current or not current) and type (total guesses,
+     *                              total correct, or average difficulty), returns the correct statistic
+     *
+     * @param {boolean} current     current === true means trying to get stats for current game,
+     *                              current === false means trying to get all time stats
+     * @param {int} type            type === 0 means trying to get total correct guesses
+     *                              type === 1 means trying to get total number of guesses
+     *                              type === 2 means trying to get average song difficulty
+     * @returns                     Returns appropriate statistic based on parameters
+     */
     formatStats = (current, type) => {
         if (current) {
             if (this.props.runStats) {
@@ -16,6 +28,7 @@ class NavBar extends Component {
                         return this.props.songDifficulty;
                     } else {
                         const avg = difficultySum / totalGuesses;
+                        // Round avg to 2 decimal places
                         return (Math.round(avg * 100) / 100).toFixed(2);
                     }
                 }
@@ -36,6 +49,7 @@ class NavBar extends Component {
                         return this.props.songDifficulty;
                     } else {
                         const avg = difficultySum / totalGuesses;
+                        // Round avg to 2 decimal places
                         return (Math.round(avg * 100) / 100).toFixed(2);
                     }
                 }
@@ -45,11 +59,20 @@ class NavBar extends Component {
         }
     };
 
+    /**
+     * @brief           Render function for NavBar component
+     * @details         Render function for NavBar that displays logo/title, current and
+     *                  high scores, and the settings menu (which contains the menu to change
+     *                  difficulty, see the game rules, get player statistics, and reset the game)
+     *
+     * @returns         NavBar component
+     */
     render() {
         return (
             <React.Fragment>
                 <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-light">
                     <div className="container-fluid mx-auto">
+                        {/* Logo and Title */}
                         <a
                             className="navbar-brand"
                             style={{
@@ -67,6 +90,8 @@ class NavBar extends Component {
                             />
                             Billboard Guesser Game
                         </a>
+
+                        {/* Current score display */}
                         <div className="mr-auto">
                             <button
                                 type="button"
@@ -77,7 +102,9 @@ class NavBar extends Component {
                                 Current Score: {this.props.currScore}
                             </button>
                         </div>
+
                         <div className="dropdown navbar-text">
+                            {/* High score display */}
                             <button
                                 type="button"
                                 tabIndex="-1"
@@ -87,6 +114,7 @@ class NavBar extends Component {
                                 High Score: {this.props.highScore}
                             </button>
 
+                            {/* Settings menu */}
                             <button
                                 type="button"
                                 className="btn btn-sm btn-dark dropdown-toggle"
@@ -97,10 +125,12 @@ class NavBar extends Component {
                                 <span className="fa fa-gear fa-lg" />
                             </button>
 
+                            {/* Dropdown menu that displays when settings menu is clicked */}
                             <div
                                 style={{ textAlign: "center", width: 200 }}
                                 className="dropdown-menu dropdown-menu-right"
                             >
+                                {/* Menu to change difficulty */}
                                 <span>
                                     <button
                                         className="btn btn-secondary btn-sm"
@@ -130,6 +160,8 @@ class NavBar extends Component {
                                     </button>
                                 </span>
                                 <div className="dropdown-divider"></div>
+
+                                {/* Game rules button */}
                                 <a
                                     className="dropdown-item btn-info"
                                     id="infoBtn"
@@ -141,6 +173,8 @@ class NavBar extends Component {
                                     Rules
                                 </a>
                                 <div className="dropdown-divider"></div>
+
+                                {/* Player stats button */}
                                 <a
                                     className="dropdown-item btn-primary"
                                     id="statsBtn"
@@ -152,6 +186,8 @@ class NavBar extends Component {
                                     Stats
                                 </a>
                                 <div className="dropdown-divider"></div>
+
+                                {/* Reset button */}
                                 <a
                                     className="dropdown-item btn-danger"
                                     id="resetBtn"
@@ -166,6 +202,7 @@ class NavBar extends Component {
                     </div>
                 </nav>
 
+                {/* Modal that displays game rules */}
                 <div
                     className="modal fade"
                     id="infoModal"
@@ -306,6 +343,7 @@ class NavBar extends Component {
                     </div>
                 </div>
 
+                {/* Modal that displays player stats */}
                 <div
                     className="modal fade"
                     id="statsModal"

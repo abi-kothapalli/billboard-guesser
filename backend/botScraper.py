@@ -11,7 +11,7 @@ PATH = "./backend/chromedriver"
 def scrape_with_bot():
 
     caps = DesiredCapabilities.CHROME
-    # Makes it so that the webdriver does not wait until the page has completed loading in its entirety, since the ads slow the page down
+    # Make it so that the webdriver does not wait until the page has completed loading in its entirety, since the ads slow the page down
     caps["pageLoadStrategy"] = "eager"
 
     options = Options()
@@ -45,8 +45,13 @@ def scrape_with_bot():
 
     top_100 = []
 
+    # Var to keep track of whether any images were not retrieved in the page source
     badImages = 0
+
+    # Gets every song entry found on the webpage
     for song_entry in soup.find_all("li", class_="chart-list__element"):
+
+        # Parse each song entry to determine rank, title, artist, and image URL
         button = song_entry.button
         rank = button.find("span", class_="chart-element__rank__number").text
         name = button.find(
@@ -61,9 +66,11 @@ def scrape_with_bot():
         if(image[:1] == "d"):
             badImages += 1
 
+        # Extract image URL
         image = image[image.find("\"")+1:]
         image = image[:image.find("\"")]
 
+        # Store data in dictionary
         song_entry = dict()
         song_entry["rank"] = rank
         song_entry["title"] = name
@@ -79,6 +86,9 @@ def scrape_with_bot():
     return(top_100)
 
 
+# Print the extracted data and flush the standard output so that the data can be retrieved when the Node.js backend runs this script
 print(json.dumps(scrape_with_bot()))
 sys.stdout.flush()
-sys.exit(0)  # If the exit code 0 is not catched by the NodeJS server, that means something went wrong while executing the script
+
+# If the exit code 0 is not catched by the NodeJS server, that means something went wrong while executing the script
+sys.exit(0)

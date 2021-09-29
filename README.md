@@ -1,4 +1,4 @@
-# Change++ Coding Challenge: Billboard Guesser Game
+# Billboard Hot 100 Guessing Game
 
 ## Usage
 
@@ -6,11 +6,11 @@ To run the final product, first navigate to a directory on your local machine wh
 
 In this directory, run:
 
-    git clone git@github.com:ChangePlusPlusVandy/change-coding-challenge-2021-abi-kothapalli.git
+    git clone git@github.com:abi-kothapalli/billboard-guesser.git
 
 Navigate into the downloaded directory with:
 
-    cd change-coding-challenge-2021-abi-kothapalli/
+    cd billboard-guesser/
 
 To run the entire application (both the frontend and backend), run:
 
@@ -26,7 +26,11 @@ To run only the backend:
 
 The frontend should then be accessible at http://localhost:3000/ and the backend should be accessible at http://localhost:8080/.
 
-If you encounter any errors when attempting to run the app, it may likely be due to dependency issues. Ensure you have the dependency that raised the error, and rerun the app.
+If you encounter any errors when attempting to run the app or the app is stuck on the loading screen, it may likely be due to dependency issues. Ensure you have the dependency that raised the error, and rerun the app.
+
+To install the necessary Python dependencies, simply run the following command in the billboard-guesser/ directory.
+
+    python3 -m pip install -r requirements.txt
 
 ## Project Structure
 
@@ -74,10 +78,6 @@ If you encounter any errors when attempting to run the app, it may likely be due
     │   ├── package-lock.json
     │   ├── package.json                # Contains some information regarding dependencies for the frontend
     └── ...
-
-## Reflection
-
-I really enjoyed this project and am certain that I learned a lot of useful skills from it. When I first saw the project specifications, I was a bit overwhelmed, particularly because I did not have any experience with Node.js, React.js, or web scraping, and only moderate experience with HTML, CSS, and JavaScript. However, I learned a lot about Node.js, React.js, and web scraping with Python, and was honestly surprised that they were not as difficult as I expected. I also learned a good deal of Bootstrap to style my frontend, and a lot more JavaScript in general. Ultimately, I really enjoyed the experience of building this project from scratch, and I am very satisfied with my results.
 
 ## Future Steps
 
